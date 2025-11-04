@@ -14,14 +14,37 @@ namespace HackerNewsFeed.Server.Controllers
         private readonly ILogger<StoryController> _logger = logger;
         private readonly IStoryService _storyService = storyService;
 
-        [HttpGet]
-        public async Task<IEnumerable<Item>> Get()
+        [HttpGet()]
+        public async Task<IActionResult> GetPaginated([FromQuery] int pageIndex, [FromQuery] int pageSize)
         {
-            var items = await GetTopStories();
-            return items;
+            if (pageIndex == 0 && pageSize == 0)
+            {
+                return await GetTopStories();
+            }
+
+            _logger.LogInformation($"Getting top stories for pageIndex {pageIndex} with pageSize {pageSize}...");
+            var ids = await _storyService.GetTopStories();
+
+            var min = pageIndex * pageSize;
+            var max = min + pageSize;
+
+            _logger.LogInformation("Retrieved {Count} top stories.", ids.Count());
+            var items = new List<Item>();
+            for (int index = min; index < max && index < ids.Count(); index++)
+            {
+                var id = ids.ElementAt(index);
+                var item = await _storyService.GetStory(id);
+                if (item == null) continue;
+                if (isItemVetted(item))
+                {
+                    items.Add(item);
+                }
+            }
+            var jsonData = new { stories = items, total = ids.Count() };
+            return Ok(jsonData);
         }
 
-        private async Task<IEnumerable<Item>> GetTopStories()
+        private async Task<IActionResult> GetTopStories()
         {
             // TODO: Introduce parallel tasks here to speed up retrieval of stories
 
@@ -37,7 +60,8 @@ namespace HackerNewsFeed.Server.Controllers
                     items.Add(item);
                 }
             }
-            return items;
+            var jsonData = new { stories = items, total = items.Count() };
+            return Ok(jsonData);
         }
 
         private bool isItemVetted(Item item)

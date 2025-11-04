@@ -1,0 +1,11 @@
+.user-list-container {
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+mat-paginator {
+  margin-top: 10px;
+}
