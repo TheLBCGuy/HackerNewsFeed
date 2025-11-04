@@ -15,10 +15,12 @@
       <Version>9.*-*</Version>
     </PackageReference>
     <PackageReference Include="Scalar.AspNetCore" Version="2.9.0" />
+    <PackageReference Include="Scrutor.AspNetCore" Version="3.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Caching\Caching.csproj" />
     <ProjectReference Include="..\..\NewsService\NewsService.csproj" />
   </ItemGroup>
 

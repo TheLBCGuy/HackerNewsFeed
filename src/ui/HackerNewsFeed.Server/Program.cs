@@ -1,11 +1,16 @@
 using NewsService;
 using Scalar.AspNetCore;
 using ServiceContract;
+using Caching;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddEasyCaching(options =>
+{
+    options.UseInMemory("inmemory");
+});
 
 builder.Services.AddCors(options =>
 {
@@ -22,6 +27,7 @@ builder.Services.Configure<NewsOptions>(
     builder.Configuration.GetSection(NewsOptions.Position));
 builder.Services.AddSingleton(ItemDeserializer.Instance);
 builder.Services.AddSingleton<IStoryService, StoryServiceMock>();
+builder.Services.TryDecorate<IStoryService, StoryServiceCache>();
 //builder.Services.AddSingleton<IStoryService, StoryService>();
 
 var app = builder.Build();

@@ -6,7 +6,7 @@ An Angular App with an ASP.NET Core backend that pulls the list of top stories (
 
 ```
 npm uninstall -g @angular/cli
-npm cache clean --force
+npm cache verify
 npm install -g @angular/cli@latest@19.2.19
 ```
 
