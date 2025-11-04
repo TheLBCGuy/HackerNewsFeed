@@ -1,18 +1,17 @@
 ﻿using System.Text.Json;
 
-namespace NewsService
-{
-    public class ItemDeserializer
-    {
-        public ItemDeserializer() { }
-        public static readonly ItemDeserializer Instance = new();
+namespace NewsService;
 
-        public T? Deserialize<T>(string json)
+public class ItemDeserializer
+{
+    public ItemDeserializer() { }
+    public static readonly ItemDeserializer Instance = new();
+
+    public T? Deserialize<T>(string json)
+    {
+        return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions
         {
-            return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-        }
+            PropertyNameCaseInsensitive = true
+        });
     }
 }

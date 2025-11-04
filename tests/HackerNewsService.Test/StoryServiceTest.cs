@@ -1,19 +1,27 @@
-﻿using Xunit;
+﻿using Microsoft.Extensions.Options;
+using Xunit;
 
 namespace NewsService.Test;
 
 public class StoryServiceTest
 {
-    [Fact]
-    public async Task TestGetTopStories()
+    private IOptions<NewsOptions> _options;
+    private StoryService _service;
+
+    public StoryServiceTest()
     {
-        var options = new NewsOptions
+        var newsOptions = new NewsOptions
         {
             BaseUrl = "https://hacker-news.firebaseio.com/v0"
         };
-        var service = new StoryService(options, ItemDeserializer.Instance);
+        _options = Options.Create(newsOptions);
+        _service = new StoryService(_options, ItemDeserializer.Instance);
+    }
 
-        var ids = await service.GetTopStories();
+    [Fact]
+    public async Task TestGetTopStories()
+    {
+        var ids = await _service.GetTopStories();
         Assert.NotNull(ids);
         Assert.Equal(500, ids.Count());
     }
@@ -21,16 +29,11 @@ public class StoryServiceTest
     [Fact]
     public async Task TestGetStory()
     {
-        var options = new NewsOptions
-        {
-            BaseUrl = "https://hacker-news.firebaseio.com/v0"
-        };
-        var service = new StoryService(options, ItemDeserializer.Instance);
-
-        var item = await service.GetStory(45691127);
+        var item = await _service.GetStory(45691127);
 
         Assert.NotNull(item);
         Assert.Equal(45691127, item.Id);
         Assert.InRange(item.DateTime, new DateTime(2025,1,1), new DateTime(2025,12,31));
     }
+
 }

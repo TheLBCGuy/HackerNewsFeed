@@ -1,7 +1,6 @@
-﻿using DataContract;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace NewsService.Models;
+namespace DataContract;
 
 public class Item : IItem
 {

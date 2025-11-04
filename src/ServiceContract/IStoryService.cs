@@ -6,6 +6,6 @@ namespace ServiceContract
     {
         public Task<IEnumerable<int>> GetTopStories();
 
-        public Task<IItem?> GetStory(int id);
+        public Task<Item?> GetStory(int id);
     }
 }

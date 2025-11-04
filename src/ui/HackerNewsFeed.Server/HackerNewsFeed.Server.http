@@ -4,3 +4,8 @@ GET {{HackerNewsFeed.Server_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{HackerNewsFeed.Server_HostAddress}}/story/
+Accept: application/json
+
+###

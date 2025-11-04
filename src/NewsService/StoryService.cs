@@ -1,17 +1,17 @@
 ﻿using DataContract;
-using NewsService.Models;
+using Microsoft.Extensions.Options;
 using ServiceContract;
-using System.Text.Json;
 
 namespace NewsService;
 
-public class StoryService(
-    INewsOptions newsUrlOptions,
-    ItemDeserializer itemDeserializer
+public class StoryService
+    (
+        IOptions<NewsOptions> options,
+        ItemDeserializer itemDeserializer
     ) : IStoryService
 
 {
-    private readonly INewsOptions _newsUrlOptions = newsUrlOptions;
+    private readonly NewsOptions _newsUrlOptions = options.Value;
     private readonly ItemDeserializer _itemDeserializer = itemDeserializer;
 
     public async Task<IEnumerable<int>> GetTopStories()
@@ -19,7 +19,7 @@ public class StoryService(
         return await GetLatestStories();
     }
 
-    public async Task<IItem?> GetStory(int id)
+    public async Task<Item?> GetStory(int id)
     {
         return await RetrieveStory(id);
     }
@@ -28,20 +28,15 @@ public class StoryService(
     {
         var contents = await ReceiveHttpResponse($"{_newsUrlOptions.BaseUrl}/topstories.json");
         if (null == contents) return [];
-        //var ids = JsonSerializer.Deserialize<IEnumerable<int>>(contents);
         var ids = _itemDeserializer.Deserialize<IEnumerable<int>>(contents);
         if (null == ids) return [];
         return ids;
     }
 
-    private async Task<IItem?> RetrieveStory(int id)
+    private async Task<Item?> RetrieveStory(int id)
     {
         var contents = await ReceiveHttpResponse($"{_newsUrlOptions.BaseUrl}/item/{id}.json");
         if (null == contents) return null;
-        //var item = JsonSerializer.Deserialize<Item>(contents, new JsonSerializerOptions
-        //{
-        //    PropertyNameCaseInsensitive = true
-        //});
         var item = _itemDeserializer.Deserialize<Item>(contents);
         return item;
     }

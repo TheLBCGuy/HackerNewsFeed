@@ -9,7 +9,7 @@ public class DeserializeTest
     {
         var deserializer = ItemDeserializer.Instance;
 
-        var item = deserializer.Deserialize<Models.Item>(FileLoader.LoadItemResponseJson("item_45691127"));
+        var item = deserializer.Deserialize<DataContract.Item>(FileLoader.LoadItemResponseJson("item_45691127"));
         Assert.NotNull(item);
         Assert.Equal(45691127, item.Id);
         Assert.Equal("fujigawa", item.By);
