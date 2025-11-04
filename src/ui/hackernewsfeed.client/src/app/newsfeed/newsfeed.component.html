@@ -1,1 +1,12 @@
-<p>newsfeed works!</p>
+<div class="col-6">
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-start mb-2 border px-4 py-3 rounded-3"
+        *ngFor="let item of service.list">
+      <div class="flex-grow-1 mouse-hover">
+        <div class="fw-bold">{{ item.id }}</div>
+        <div>{{ item.by }}</div>
+        <div class="fw-bold">{{ item.title }}</div>
+      </div>
+    </li>
+  </ul>
+</div>

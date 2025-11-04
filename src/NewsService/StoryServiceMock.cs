@@ -18,7 +18,8 @@ public class StoryServiceMock : IStoryService
     private async Task<IEnumerable<int>> GetLatestStories()
     {
         await Task.CompletedTask;
-        return [1, 2, 3, 4, 5];
+
+        return Enumerable.Range(1, 500).ToList();
     }
 
     private async Task<Item?> RetrieveStory(int id)
@@ -28,6 +29,7 @@ public class StoryServiceMock : IStoryService
         {
             Id = id,
             Type = "story",
+            By = $"Author {id}",
             Title = $"Mock Story {id}",
             Url = $"https://example.com/story/{id}",
             Deleted = false,

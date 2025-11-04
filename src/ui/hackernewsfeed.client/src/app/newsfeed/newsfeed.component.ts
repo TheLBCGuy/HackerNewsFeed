@@ -13,6 +13,6 @@ export class NewsfeedComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.retrieveList();
+    this.service.refreshList();
   }
 }
