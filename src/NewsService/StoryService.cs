@@ -19,6 +19,11 @@ public class StoryService
         return await GetLatestStories();
     }
 
+    public async Task<IEnumerable<Item>> GetStories(IEnumerable<int> ids)
+    {
+        return await RetrieveStories(ids);
+    }
+
     public async Task<Item?> GetStory(int id)
     {
         return await RetrieveStory(id);
@@ -31,6 +36,18 @@ public class StoryService
         var ids = _itemDeserializer.Deserialize<IEnumerable<int>>(contents);
         if (null == ids) return [];
         return ids;
+    }
+
+    private async Task<IEnumerable<Item>> RetrieveStories(IEnumerable<int> ids)
+    {
+        var items = new List<Item>();
+        foreach (var id in ids)
+        {
+            var item = await RetrieveStory(id);
+            if (item == null) continue;
+            items.Add(item);
+        }
+        return items;
     }
 
     private async Task<Item?> RetrieveStory(int id)

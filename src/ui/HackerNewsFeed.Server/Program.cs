@@ -1,7 +1,8 @@
+using Caching;
+using HackerNewsFeed.Server;
 using NewsService;
 using Scalar.AspNetCore;
 using ServiceContract;
-using Caching;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +26,19 @@ builder.Services.AddCors(options =>
 
 builder.Services.Configure<NewsOptions>(
     builder.Configuration.GetSection(NewsOptions.Position));
+
 builder.Services.AddSingleton(ItemDeserializer.Instance);
+builder.Services.AddHttpClient<IStoryService, StoryService>();
 builder.Services.AddSingleton<IStoryService, StoryServiceMock>();
-builder.Services.TryDecorate<IStoryService, StoryServiceCache>();
 //builder.Services.AddSingleton<IStoryService, StoryService>();
+builder.Services.TryDecorate<IStoryService, StoryServiceCache>();
+builder.Services.AddSingleton<IIndexer>(LuceneIndexer.Instance);
+builder.Services.AddSingleton<IStoryIndexerService, StoryIndexerService>();
+
+if (builder.Configuration.GetValue<bool>("IndexStoriesOnStartup"))
+{
+    builder.Services.AddHostedService<StoryHostedService>();
+}
 
 var app = builder.Build();
 

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NewsfeedComponent } from './newsfeed/newsfeed.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AppRoutingModule,
     MatTableModule,
     MatPaginatorModule,
+    FormsModule
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent]

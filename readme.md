@@ -12,9 +12,11 @@ npm install -g @angular/cli@latest@19.2.19
 
 ## Todo
 
-add storyservice cacheing
+burst story retrieval
 
-add indexing/searching
+make items ui pretty
+
+improve storyservice cacheing (with app settings)
 
 add angular unit tests
 

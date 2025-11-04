@@ -15,6 +15,16 @@ public class StoryServiceMock : IStoryService
         return await RetrieveStory(id);
     }
 
+    public async Task<IEnumerable<Item>> GetStories(IEnumerable<int> ids)
+    {
+        var items = new List<Item>();
+        foreach(var id in ids)
+        {
+            items.Add(await RetrieveStory(id) ?? new Item());
+        }
+        return items;
+    }
+
     private async Task<IEnumerable<int>> GetLatestStories()
     {
         await Task.CompletedTask;

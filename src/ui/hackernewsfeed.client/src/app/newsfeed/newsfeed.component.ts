@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, signal } from '@angular/core';
 import { NewsfeedService } from '../../services/newsfeed.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { StoryModel } from '../../abstractions/story-model';
+import { StoryModel } from '../../abstractions';
 
 @Component({
   selector: 'app-newsfeed',
@@ -10,11 +10,13 @@ import { StoryModel } from '../../abstractions/story-model';
   styleUrl: './newsfeed.component.css'
 })
 export class NewsfeedComponent implements OnInit {
-  totalStories = 0;
+  
   displayedColumns: string[] = ['id', 'title', 'by'];
   stories: StoryModel[] = [];
-  pageSize = 10;
-  pageIndex = 0;
+  totalStories = signal<number>(0);
+  pageSize = signal<number>(10);
+  pageIndex = signal<number>(0);
+  searchTerm = signal<string>("");
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -24,16 +26,15 @@ export class NewsfeedComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadStories();
-
   }
 
   loadStories(): void {
-    this.service.getPagination(this.pageIndex, this.pageSize).subscribe({
+    this.service.getPagination(this.pageIndex(), this.pageSize()).subscribe({
       next: (data) => {
         console.log(data.total);
         console.log(data.stories);
         this.stories = data.stories;
-        this.totalStories = data.total;
+        this.totalStories.set(data.total);
       },
       error: (err) => {
         console.error('Error fetching users:', err);
@@ -41,9 +42,57 @@ export class NewsfeedComponent implements OnInit {
     });
   }
 
-  onPageChange(event: PageEvent): void {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
+  searchStories(): void {
+    console.log("search button clicked");
+    console.log("searchTerm is " + this.searchTerm());
+    this.service.getSearchPagination(this.searchTerm(), this.pageIndex(), this.pageSize()).subscribe({
+      next: (data) => {
+        console.log(data.total);
+        console.log(data.stories);
+        this.stories = data.stories;
+        this.totalStories.set(data.total);
+      },
+      error: (err) => {
+        console.error('Error fetching users:', err);
+      },
+    });
+  }
+
+  clearSearch() {
+    this.searchTerm.set("");
+    this.pageIndex.set(0);
+    console.log("pageIndex is " + this.pageIndex().toString());
+    console.log("clear button clicked");
     this.loadStories();
+  }
+
+  searchButtonClicked() {
+    //if (this.searchTerm() == "") return;
+
+    this.prepareForNewSearch();
+  }
+
+  searchFieldKeyUp(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.prepareForNewSearch();
+    }
+    console.log(this.searchTerm());
+  }
+
+  prepareForNewSearch() {
+    this.pageIndex.set(0);
+    console.log("pageIndex is " + this.pageIndex().toString());
+    this.searchStories();
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
+    if (this.searchTerm() != "") {
+      this.searchStories();
+    }
+    else {
+      this.loadStories();
+    }
   }
 }

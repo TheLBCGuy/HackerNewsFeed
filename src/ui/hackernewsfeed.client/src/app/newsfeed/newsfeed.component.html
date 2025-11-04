@@ -1,3 +1,13 @@
+<div class="search">
+  <div class="button-row">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Type here to search..." (keyup)="searchFieldKeyUp($event)">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-primary" (click)="searchButtonClicked()">Search</button>
+      <button type="button" class="btn btn-outline-primary" (click)="clearSearch()">Clear</button>
+    </div>
+  </div>
+</div>
+
 <div class="user-list-container">
   <table mat-table [dataSource]="stories" class="mat-elevation-z8">
     <!-- ID Column -->
@@ -19,9 +29,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [length]="totalStories"
-                 [pageSize]="pageSize"
-                 [pageSizeOptions]="[5, 10, 20]"
+  <mat-paginator [length]="totalStories()"
+                 [pageIndex]="pageIndex()"
+                 [pageSize]="pageSize()"
+                 [pageSizeOptions]="[10, 15, 20, 25]"
                  (page)="onPageChange($event)">
   </mat-paginator>
 </div>

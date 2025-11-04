@@ -27,7 +27,7 @@ public class StoryServiceCache
         else
         {
             var model = await _storyService.GetTopStories();
-            await provider.SetAsync(key, model, TimeSpan.FromHours(expirationOfTopStoriesInHours));
+            await _provider.SetAsync(key, model, TimeSpan.FromHours(expirationOfTopStoriesInHours));
             return model;
         }
     }
@@ -44,8 +44,13 @@ public class StoryServiceCache
         {
             var model = await _storyService.GetStory(id);
             if (model == null) return null;
-            await provider.SetAsync(key, model, TimeSpan.FromHours(expirationOfStoryInHours));
+            await _provider.SetAsync(key, model, TimeSpan.FromHours(expirationOfStoryInHours));
             return model;
         }
+    }
+
+    public async Task<IEnumerable<Item>> GetStories(IEnumerable<int> ids)
+    {
+        return await _storyService.GetStories(ids);
     }
 }

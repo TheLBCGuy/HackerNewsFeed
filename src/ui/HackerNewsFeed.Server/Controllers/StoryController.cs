@@ -1,5 +1,6 @@
 using DataContract;
 using Microsoft.AspNetCore.Mvc;
+using NewsService;
 using ServiceContract;
 
 namespace HackerNewsFeed.Server.Controllers
@@ -8,9 +9,11 @@ namespace HackerNewsFeed.Server.Controllers
     [Route("api/[controller]")]
     public class StoryController(
         IStoryService storyService,
+        IStoryIndexerService storyIndexerService,
         ILogger<StoryController> logger
         ) : ControllerBase
     {
+        private readonly IStoryIndexerService _storyIndexerService = storyIndexerService;
         private readonly ILogger<StoryController> _logger = logger;
         private readonly IStoryService _storyService = storyService;
 
@@ -24,6 +27,36 @@ namespace HackerNewsFeed.Server.Controllers
 
             _logger.LogInformation($"Getting top stories for pageIndex {pageIndex} with pageSize {pageSize}...");
             var ids = await _storyService.GetTopStories();
+
+            var min = pageIndex * pageSize;
+            var max = min + pageSize;
+
+            _logger.LogInformation("Retrieved {Count} top stories.", ids.Count());
+            var items = new List<Item>();
+            for (int index = min; index < max && index < ids.Count(); index++)
+            {
+                var id = ids.ElementAt(index);
+                var item = await _storyService.GetStory(id);
+                if (item == null) continue;
+                if (isItemVetted(item))
+                {
+                    items.Add(item);
+                }
+            }
+            var jsonData = new { stories = items, total = ids.Count() };
+            return Ok(jsonData);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetSearchPaginated([FromQuery] string searchTerm, [FromQuery] int pageIndex, [FromQuery] int pageSize)
+        {
+            if (pageIndex == 0 && pageSize == 0)
+            {
+                return await GetTopStories();
+            }
+
+            _logger.LogInformation($"Searching top stories with '{searchTerm}' for pageIndex {pageIndex} with pageSize {pageSize}...");
+            var ids = await _storyIndexerService.SearchStories(searchTerm);
 
             var min = pageIndex * pageSize;
             var max = min + pageSize;
