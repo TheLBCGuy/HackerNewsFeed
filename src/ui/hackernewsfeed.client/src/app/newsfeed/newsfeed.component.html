@@ -19,6 +19,8 @@
 
 <div class="news-app-container">
   <div class="news-list">
+    <div *ngIf="!(stories.length) && searchTerm().length>0">No results found for {{searchTerm()}}</div>
+    <div *ngIf="!(stories.length) && searchTerm().length==0">Loading...</div>
     <div class="news-item" *ngFor="let story of stories">
       <div class="news-content">
         <mat-icon class="news-item-grade" *ngIf="showGradeStar(story)" title="Stars show for popular links">grade</mat-icon>
