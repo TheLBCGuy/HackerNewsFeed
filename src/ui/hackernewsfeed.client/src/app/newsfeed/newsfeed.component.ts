@@ -11,12 +11,14 @@ import { StoryModel } from '../../abstractions';
 })
 export class NewsfeedComponent implements OnInit {
   
-  displayedColumns: string[] = ['id', 'title', 'by'];
   stories: StoryModel[] = [];
   totalStories = signal<number>(0);
   pageSize = signal<number>(10);
   pageIndex = signal<number>(0);
   searchTerm = signal<string>("");
+  star_score_minimum: number = 500;
+
+  customPaginatorStyle = 'custom-paginator-style';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -67,7 +69,7 @@ export class NewsfeedComponent implements OnInit {
   }
 
   searchButtonClicked() {
-    //if (this.searchTerm() == "") return;
+    if (this.searchTerm() == "") return;
 
     this.prepareForNewSearch();
   }
@@ -77,6 +79,11 @@ export class NewsfeedComponent implements OnInit {
       this.prepareForNewSearch();
     }
     console.log(this.searchTerm());
+  }
+
+  showGradeStar(story: StoryModel) {
+    if (story.score == null) return false;
+    return story.score >= this.star_score_minimum;
   }
 
   prepareForNewSearch() {

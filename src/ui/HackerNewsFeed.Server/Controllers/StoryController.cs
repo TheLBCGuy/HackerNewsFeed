@@ -17,6 +17,8 @@ namespace HackerNewsFeed.Server.Controllers
         private readonly ILogger<StoryController> _logger = logger;
         private readonly IStoryService _storyService = storyService;
 
+        // TODO Refactor
+
         [HttpGet()]
         public async Task<IActionResult> GetPaginated([FromQuery] int pageIndex, [FromQuery] int pageSize)
         {

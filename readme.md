@@ -12,13 +12,16 @@ npm install -g @angular/cli@latest@19.2.19
 
 ## Todo
 
-burst story retrieval
-
-make items ui pretty
-
-improve storyservice cacheing (with app settings)
-
 add angular unit tests
+
+move vetted on service side instead of front-end
 
 clean-up, refactor
 
+## Later Todos
+
+burst story retrieval
+
+client keeps current list (whether load fresh or latest search), only requests new stories from server on load/refresh
+
+improve storyservice cacheing (with app settings)

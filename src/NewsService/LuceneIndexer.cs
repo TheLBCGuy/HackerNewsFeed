@@ -62,7 +62,8 @@ namespace NewsService
             var doc = new Document {
                 new Int32Field(nameof(item.Id), item.Id, Field.Store.YES),
                 new StringField(nameof(item.Title), (item.Title ?? string.Empty).ToLowerInvariant(), Field.Store.YES),
-                new StringField(nameof(item.Text), (item.Text ?? string.Empty).ToLowerInvariant(), Field.Store.YES)
+                new StringField(nameof(item.Text), (item.Text ?? string.Empty).ToLowerInvariant(), Field.Store.YES),
+                new StringField(nameof(item.By), (item.By ?? string.Empty).ToLowerInvariant(), Field.Store.YES)
             };
             return doc;
         }
