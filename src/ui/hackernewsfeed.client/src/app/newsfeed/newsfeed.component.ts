@@ -17,6 +17,7 @@ export class NewsfeedComponent implements OnInit {
   pageIndex = signal<number>(0);
   searchTerm = signal<string>("");
   star_score_minimum: number = 500;
+  textPreviewLength: number = 150;
 
   customPaginatorStyle = 'custom-paginator-style';
 
@@ -84,6 +85,11 @@ export class NewsfeedComponent implements OnInit {
   showGradeStar(story: StoryModel) {
     if (story.score == null) return false;
     return story.score >= this.star_score_minimum;
+  }
+
+  textPreview(story: StoryModel) {
+    if (story.text == null) return null;
+    return story.text.substring(0, this.textPreviewLength) + "...";
   }
 
   prepareForNewSearch() {

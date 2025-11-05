@@ -14,7 +14,8 @@
       <div class="news-content">
         <mat-icon class="news-item-grade" *ngIf="showGradeStar(story)" title="Stars show for popular links">grade</mat-icon>
         <h4 class="news-title">{{ story.title }}</h4>
-        <p class="news-description">{{ story.by }}</p>
+        <p class="news-author">{{ story.by }}</p>
+        <p class="news-text"><span>{{ textPreview(story) }}</span></p>
         <a [href]="story.url" target="_blank" class="news-link">Read More...</a>
       </div>
     </div>
