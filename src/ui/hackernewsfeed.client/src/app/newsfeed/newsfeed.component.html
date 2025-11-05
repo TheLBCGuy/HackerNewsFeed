@@ -1,12 +1,21 @@
 <p *ngIf="!stories"><em>Loading... Please refresh once the ASP.NET backend has started...</em></p>
 
 <div class="search-container">
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Type here to search..." (keyup)="searchFieldKeyUp($event)">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary" (click)="searchButtonClicked()">Search</button>
-      <button type="button" class="btn btn-outline-primary" (click)="clearSearch()">Clear</button>
-    </div>
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Type here to search..." (keyup)="searchFieldKeyUp($event)">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-primary" (click)="searchButtonClicked()">Search</button>
+    <button type="button" class="btn btn-outline-primary" (click)="clearSearch()">Clear</button>
+  </div>
 </div>
+
+<mat-paginator [length]="totalStories()"
+               [pageIndex]="pageIndex()"
+               [pageSize]="pageSize()"
+               [pageSizeOptions]="[15, 25, 50]"
+               [showFirstLastButtons]="true"
+               (page)="onPageChange($event)">
+</mat-paginator>
+
 
 <div class="news-app-container">
   <div class="news-list">
@@ -16,7 +25,7 @@
         <h4 class="news-title">{{ story.title }}</h4>
         <p class="news-author">{{ story.by }}</p>
         <p class="news-text"><span>{{ textPreview(story) }}</span></p>
-        <a [href]="story.url" target="_blank" class="news-link">Read More...</a>
+        <a *ngIf="showLink(story)" href="story.url" [href]="story.url" target="_blank" class="news-link">Read More...</a>
       </div>
     </div>
   </div>

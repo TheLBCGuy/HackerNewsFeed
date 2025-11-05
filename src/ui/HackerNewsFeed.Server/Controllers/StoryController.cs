@@ -17,49 +17,31 @@ namespace HackerNewsFeed.Server.Controllers
         private readonly ILogger<StoryController> _logger = logger;
         private readonly IStoryService _storyService = storyService;
 
-        // TODO Refactor
-
         [HttpGet]
         public async Task<IActionResult> GetPaginated([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 10)
         {
-            if (pageIndex == 0 && pageSize == 0)
-            {
-                return await GetTopStories();
-            }
+            if (pageIndex == 0 && pageSize == 0) return await GetTopStories();
 
             _logger.LogInformation($"Getting top stories for pageIndex {pageIndex} with pageSize {pageSize}...");
             var ids = await _storyService.GetTopStories();
 
-            var min = pageIndex * pageSize;
-            var max = min + pageSize;
-
-            _logger.LogInformation("Retrieved {Count} top stories.", ids.Count());
-            var items = new List<Item>();
-            for (int index = min; index < max && index < ids.Count(); index++)
-            {
-                var id = ids.ElementAt(index);
-                var item = await _storyService.GetStory(id);
-                if (item == null) continue;
-                if (isItemVetted(item))
-                {
-                    items.Add(item);
-                }
-            }
-            var jsonData = new { stories = items, total = ids.Count() };
-            return Ok(jsonData);
+            return await Paginate(pageIndex, pageSize, ids);
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> GetSearchPaginated([FromQuery] string searchTerm, [FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 25)
         {
-            if (pageIndex == 0 && pageSize == 0)
-            {
-                return await GetTopStories();
-            }
+            if (null == searchTerm || "" == searchTerm.Trim()) return await GetTopStories();
+            if (pageIndex == 0 && pageSize == 0) return await GetTopStories();
 
             _logger.LogInformation($"Searching top stories with '{searchTerm}' for pageIndex {pageIndex} with pageSize {pageSize}...");
             var ids = await _storyIndexerService.SearchStories(searchTerm);
 
+            return await Paginate(pageIndex, pageSize, ids);
+        }
+
+        private async Task<IActionResult> Paginate(int pageIndex, int pageSize, IEnumerable<int> ids)
+        {
             var min = pageIndex * pageSize;
             var max = min + pageSize;
 
@@ -78,6 +60,7 @@ namespace HackerNewsFeed.Server.Controllers
             var jsonData = new { stories = items, total = ids.Count() };
             return Ok(jsonData);
         }
+
 
         private async Task<IActionResult> GetTopStories()
         {
@@ -101,12 +84,14 @@ namespace HackerNewsFeed.Server.Controllers
 
         private bool isItemVetted(Item item)
         {
+            // TODO : Do I need to vett anything?, or return all and later can add a filter for comments, stories and poll texts
             // TODO : What does 'dead' mean? Decide later if we want/need to filter out dead items
 
-            if (item.Type != "story") return false;
-            if (item.Url == null) return false;
-            if (item.Deleted) return false;
+            //if (item.Type != "story") return false;
+            //if (item.Url == null) return false;
+            //if (item.Deleted) return false;
             // if (item.Dead) return false;
+
             return true;
         }
     }

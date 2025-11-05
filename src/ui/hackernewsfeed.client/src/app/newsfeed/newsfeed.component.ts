@@ -87,6 +87,10 @@ export class NewsfeedComponent implements OnInit {
     return story.score >= this.star_score_minimum;
   }
 
+  showLink(story: StoryModel) {
+    return story.url != null && story.url != "" && story.url != "null";
+  }
+
   textPreview(story: StoryModel) {
     if (story.text == null) return null;
     return story.text.substring(0, this.textPreviewLength) + "...";
