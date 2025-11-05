@@ -10,12 +10,12 @@
 
 <div class="news-app-container">
   <div class="news-list">
-    <div class="news-item" *ngFor="let article of stories">
+    <div class="news-item" *ngFor="let story of stories">
       <div class="news-content">
-        <mat-icon class="news-item-grade" *ngIf="showGradeStar(article)" title="Stars show for popular links">grade</mat-icon>
-        <h4 class="news-title">{{ article.title }}</h4>
-        <p class="news-description">{{ article.by }}</p>
-        <a [href]="article.url" target="_blank" class="news-link">Read More...</a>
+        <mat-icon class="news-item-grade" *ngIf="showGradeStar(story)" title="Stars show for popular links">grade</mat-icon>
+        <h4 class="news-title">{{ story.title }}</h4>
+        <p class="news-description">{{ story.by }}</p>
+        <a [href]="story.url" target="_blank" class="news-link">Read More...</a>
       </div>
     </div>
   </div>

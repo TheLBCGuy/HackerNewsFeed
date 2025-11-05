@@ -1,11 +1,13 @@
 @HackerNewsFeed.Server_HostAddress = http://localhost:5014
 
-GET {{HackerNewsFeed.Server_HostAddress}}/weatherforecast/
+###
+
+GET {{HackerNewsFeed.Server_HostAddress}}/story/
 Accept: application/json
 
 ###
 
-GET {{HackerNewsFeed.Server_HostAddress}}/story/
+GET {{HackerNewsFeed.Server_HostAddress}}/story/search?searchTerm=technology
 Accept: application/json
 
 ###

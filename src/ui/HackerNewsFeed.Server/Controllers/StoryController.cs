@@ -19,8 +19,8 @@ namespace HackerNewsFeed.Server.Controllers
 
         // TODO Refactor
 
-        [HttpGet()]
-        public async Task<IActionResult> GetPaginated([FromQuery] int pageIndex, [FromQuery] int pageSize)
+        [HttpGet]
+        public async Task<IActionResult> GetPaginated([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 10)
         {
             if (pageIndex == 0 && pageSize == 0)
             {
@@ -50,7 +50,7 @@ namespace HackerNewsFeed.Server.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> GetSearchPaginated([FromQuery] string searchTerm, [FromQuery] int pageIndex, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetSearchPaginated([FromQuery] string searchTerm, [FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 25)
         {
             if (pageIndex == 0 && pageSize == 0)
             {

@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caching", "src\Caching\Caching.csproj", "{2AAFE079-2C57-4B99-A521-FC8DAE6D8775}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNewsFeed.Server.IntegrationTest", "tests\HackerNewsFeed.Server.IntegrationTest\HackerNewsFeed.Server.IntegrationTest.csproj", "{E249BF7F-C3B9-4ED8-BC49-337B8F185211}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{2AAFE079-2C57-4B99-A521-FC8DAE6D8775}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AAFE079-2C57-4B99-A521-FC8DAE6D8775}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AAFE079-2C57-4B99-A521-FC8DAE6D8775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E249BF7F-C3B9-4ED8-BC49-337B8F185211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E249BF7F-C3B9-4ED8-BC49-337B8F185211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E249BF7F-C3B9-4ED8-BC49-337B8F185211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E249BF7F-C3B9-4ED8-BC49-337B8F185211}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{B4F023AD-0B92-480E-BE32-33E7610ADCB1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{12BECDED-016C-43FD-BAF6-0C72357B6693} = {665ACC96-DC75-4D65-BE07-8F16C012F915}
 		{2AAFE079-2C57-4B99-A521-FC8DAE6D8775} = {665ACC96-DC75-4D65-BE07-8F16C012F915}
+		{E249BF7F-C3B9-4ED8-BC49-337B8F185211} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4B3AEF8E-99A7-4815-8308-275A17814F12}

@@ -13,7 +13,7 @@ export class NewsfeedComponent implements OnInit {
   
   stories: StoryModel[] = [];
   totalStories = signal<number>(0);
-  pageSize = signal<number>(10);
+  pageSize = signal<number>(15);
   pageIndex = signal<number>(0);
   searchTerm = signal<string>("");
   star_score_minimum: number = 500;

@@ -2,7 +2,7 @@
 
 namespace NewsService;
 
-public class ItemDeserializer
+public class ItemDeserializer : IItemDeserializer
 {
     public ItemDeserializer() { }
     public static readonly ItemDeserializer Instance = new();
