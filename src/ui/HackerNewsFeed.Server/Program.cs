@@ -14,16 +14,6 @@ public class Program
             options.UseInMemory("inmemory");
         });
 
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAngularApp", policy =>
-            {
-                policy.WithOrigins("https://localhost:63203")
-                      .AllowAnyMethod()
-                      .AllowAnyHeader()
-                      .AllowCredentials();
-            });
-        });
 
         builder.Services.AddStoryServices(builder.Configuration);
 
@@ -41,13 +31,11 @@ public class Program
             });
         }
 
-        app.UseCors("AllowAngularApp");
-
         app.UseAuthorization();
 
         app.MapControllers();
 
-        //app.MapFallbackToFile("/index.html");
+        app.MapFallbackToFile("/index.html");
 
         app.Run();
     }

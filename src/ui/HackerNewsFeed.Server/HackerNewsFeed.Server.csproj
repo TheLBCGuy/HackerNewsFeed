@@ -22,6 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Caching\Caching.csproj" />
     <ProjectReference Include="..\..\NewsService\NewsService.csproj" />
+    <ProjectReference Include="..\hackernewsfeed.client\hackernewsfeed.client.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

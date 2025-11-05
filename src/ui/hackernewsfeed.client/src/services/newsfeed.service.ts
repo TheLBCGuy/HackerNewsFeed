@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../environments/environment.development';
 import { StoryModel } from '../abstractions';
 import { Observable } from 'rxjs';
 
@@ -9,8 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class NewsfeedService {
   constructor(private http: HttpClient) {}
-  url: string = environment.apiBaseUrl + '/story';
-  searchUrl: string = environment.apiBaseUrl + '/story/search';
+  url: string = '/api/story';
+  searchUrl: string = '/api/story/search';
   list: StoryModel[] = [];
   listCount: number = 0;
 
