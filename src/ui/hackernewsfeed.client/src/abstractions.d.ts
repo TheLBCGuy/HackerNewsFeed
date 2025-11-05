@@ -1,7 +1,7 @@
 export interface StoryModel {
   id: number;
   title: string;
-  text: string;
+  text?: string;
   url: string;
   score?: number;
   by?: string | null;
