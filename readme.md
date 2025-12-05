@@ -47,3 +47,15 @@ npm uninstall -g @angular/cli
 npm cache verify
 npm install -g @angular/cli@latest@19.2.19
 ```
+
+## Help with GitHub Actions
+
+# Install Act to Help with Testing Actions Locally
+
+## See this site for more information:
+
+https://nektosact.com/introduction.html
+
+## See this site for Winget installation instructions:
+
+https://nektosact.com/installation/winget.html
