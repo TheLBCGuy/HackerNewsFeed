@@ -1,4 +1,4 @@
-<p *ngIf="!stories"><em>Loading... Please refresh once the ASP.NET backend has started...</em></p>
+<p *ngIf="!stories()"><em>Loading... Please refresh once the ASP.NET backend has started...</em></p>
 
 <div class="search-container">
   <input type="text" [(ngModel)]="searchTerm" placeholder="Type here to search..." (keyup)="searchFieldKeyUp($event)">
@@ -19,9 +19,9 @@
 
 <div class="news-app-container">
   <div class="news-list">
-    <div *ngIf="!(stories.length) && searchTerm().length>0">No results found for {{searchTerm()}}</div>
-    <div *ngIf="!(stories.length) && searchTerm().length==0">Loading...</div>
-    <div class="news-item" *ngFor="let story of stories">
+    <div *ngIf="!(stories().length) && searchTerm().length>0">No results found for {{searchTerm()}}</div>
+    <div *ngIf="!(stories().length) && searchTerm().length==0">Loading...</div>
+    <div class="news-item" *ngFor="let story of stories()">
       <div class="news-content">
         <mat-icon class="news-item-grade" *ngIf="showGradeStar(story)" title="Stars show for popular links">grade</mat-icon>
         <h4 class="news-title">{{ story.title }}</h4>

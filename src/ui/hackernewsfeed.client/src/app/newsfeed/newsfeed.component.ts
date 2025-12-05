@@ -11,13 +11,13 @@ import { StoryModel } from '../../abstractions';
 })
 export class NewsfeedComponent implements OnInit {
   
-  stories: StoryModel[] = [];
+  stories = signal<StoryModel[]>([]);
   totalStories = signal<number>(0);
   pageSize = signal<number>(15);
   pageIndex = signal<number>(0);
   searchTerm = signal<string>("");
-  star_score_minimum: number = 500;
-  textPreviewLength: number = 150;
+  readonly star_score_minimum: number = 500;
+  readonly textPreviewLength: number = 150;
 
   customPaginatorStyle = 'custom-paginator-style';
 
@@ -36,7 +36,7 @@ export class NewsfeedComponent implements OnInit {
       next: (data) => {
         console.log(data.total);
         console.log(data.stories);
-        this.stories = data.stories;
+        this.stories.set(data.stories);
         this.totalStories.set(data.total);
       },
       error: (err) => {
@@ -52,7 +52,7 @@ export class NewsfeedComponent implements OnInit {
       next: (data) => {
         console.log(data.total);
         console.log(data.stories);
-        this.stories = data.stories;
+        this.stories.set(data.stories);
         this.totalStories.set(data.total);
       },
       error: (err) => {
@@ -105,11 +105,16 @@ export class NewsfeedComponent implements OnInit {
   onPageChange(event: PageEvent): void {
     this.pageIndex.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
+    this.onBeforeChangePage();
     if (this.searchTerm() != "") {
       this.searchStories();
     }
     else {
       this.loadStories();
     }
+  }
+
+  onBeforeChangePage(): void {
+    this.stories.set([]);
   }
 }
