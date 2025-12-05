@@ -22,7 +22,7 @@ namespace HackerNewsFeed.Server.Controllers
         {
             if (pageIndex == 0 && pageSize == 0) return await GetTopStories();
 
-            _logger.LogInformation($"Getting top stories for pageIndex {pageIndex} with pageSize {pageSize}...");
+            _logger.LogInformation("Getting top stories for pageIndex {pageIndex} with pageSize {pageSize}...", pageIndex, pageSize);
             var ids = await _storyService.GetTopStories();
 
             return await Paginate(pageIndex, pageSize, ids);
@@ -34,7 +34,7 @@ namespace HackerNewsFeed.Server.Controllers
             if (null == searchTerm || "" == searchTerm.Trim()) return await GetTopStories();
             if (pageIndex == 0 && pageSize == 0) return await GetTopStories();
 
-            _logger.LogInformation($"Searching top stories with '{searchTerm}' for pageIndex {pageIndex} with pageSize {pageSize}...");
+            _logger.LogInformation("Searching top stories with '{searchTerm}' for pageIndex {pageIndex} with pageSize {pageSize}...", searchTerm, pageIndex, pageSize);
             var ids = await _storyIndexerService.SearchStories(searchTerm);
 
             return await Paginate(pageIndex, pageSize, ids);
