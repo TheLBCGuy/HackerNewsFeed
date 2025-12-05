@@ -48,7 +48,7 @@ describe('NewsfeedService', () => {
       expect(result.total).toEqual(2);
     });
 
-    const req = httpMock.expectOne('http://localhost:5014/api/story?pageIndex=0&pageSize=10');
+    const req = httpMock.expectOne('/api/story?pageIndex=0&pageSize=10');
     expect(req.request.method).toBe('GET');
     req.flush(mockResult);
   });
