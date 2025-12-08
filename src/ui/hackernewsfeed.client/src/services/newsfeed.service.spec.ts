@@ -1,7 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { NewsfeedService } from './newsfeed.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { StoryModel } from '../abstractions';
+import { TestBed } from '@angular/core/testing';
+
+import { NewsfeedService } from './newsfeed.service';
+import { mockResult } from '../test.variables';
 
 describe('NewsfeedService', () => {
   let service: NewsfeedService;
@@ -22,24 +23,6 @@ describe('NewsfeedService', () => {
   });
 
   it('should return stories', () => {
-    let story1: StoryModel = {
-      id: 1,
-      title: 'Title 1',
-      url: 'www.story1.com'
-    };
-    let story2: StoryModel = {
-      id: 2,
-      title: 'Title 2',
-      url: 'www.story2.com'
-    };
-    const mockResult = {
-      stories: [
-        story1,
-        story2
-      ],
-      total: 2
-    };
-
     service.getPagination(0, 10).subscribe(result => {
       console.log(result);
       expect(result).toBeTruthy;
@@ -51,5 +34,9 @@ describe('NewsfeedService', () => {
     const req = httpMock.expectOne('/api/story?pageIndex=0&pageSize=10');
     expect(req.request.method).toBe('GET');
     req.flush(mockResult);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 });
