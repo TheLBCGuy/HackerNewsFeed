@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: UnitTestResults
-          path: ./tests/HackerNewsService.Test/TestResults/TestResults.trx
+          path: ./tests/HackerNewsService.Test/TestResults/NewsServiceTestResults.trx
 
       - name: Integration Tests with Report
         run: dotnet test tests/HackerNewsFeed.Server.IntegrationTest/HackerNewsFeed.Server.IntegrationTest.csproj --configuration Release --no-build --logger "trx;LogFileName=HackerNewsFeed.Server.IntegrationTestResults.trx"
@@ -44,4 +44,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: IntegrationTestResults
-          path: ./tests/HackerNewsFeed.Server.IntegrationTest/HackerNewsFeed.Server.IntegrationTest/TestResults/TestResults.trx
+          path: ./tests/HackerNewsFeed.Server.IntegrationTest/TestResults/HackerNewsFeed.Server.IntegrationTestResults.trx
