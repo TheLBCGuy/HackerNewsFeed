@@ -29,19 +29,7 @@ jobs:
         run: dotnet build HackerNewsFeed.sln --configuration Release --no-restore
  
       - name: Unit Tests with Report
-        run: dotnet test tests/HackerNewsService.Test/NewsService.Test.csproj --configuration Release --no-build --logger "trx;LogFileName=NewsServiceTestResults.trx"
- 
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: UnitTestResults
-          path: ./tests/HackerNewsService.Test/TestResults/NewsServiceTestResults.trx
+        run: dotnet test tests/HackerNewsService.Test/NewsService.Test.csproj --configuration Release --no-build --logger:"console;verbosity=detailed"
 
-      - name: Integration Tests with Report
-        run: dotnet test tests/HackerNewsFeed.Server.IntegrationTest/HackerNewsFeed.Server.IntegrationTest.csproj --configuration Release --no-build --logger "trx;LogFileName=HackerNewsFeed.Server.IntegrationTestResults.trx"
- 
-      - name: Upload Integration Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: IntegrationTestResults
-          path: ./tests/HackerNewsFeed.Server.IntegrationTest/TestResults/HackerNewsFeed.Server.IntegrationTestResults.trx
+      - name: Integration Tests
+        run: dotnet test tests/HackerNewsFeed.Server.IntegrationTest/HackerNewsFeed.Server.IntegrationTest.csproj --configuration Release --no-build --logger:"console;verbosity=detailed"
