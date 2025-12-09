@@ -23,9 +23,7 @@ export class NewsfeedComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(
-    public service: NewsfeedService
-  ) { }
+  constructor(public service: NewsfeedService) { }
 
   ngOnInit(): void {
     this.loadStories();

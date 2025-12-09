@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { StoryModel } from '../abstractions';
+import { StoryModel, GetStoryResponse } from '../abstractions';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,33 +9,22 @@ import { Observable } from 'rxjs';
 export class NewsfeedService {
   constructor(private http: HttpClient) {}
   url: string = '/api/story';
-  searchUrl: string = '/api/story/search';
+  searchUrl: string = this.url + '/search';
   list: StoryModel[] = [];
   listCount: number = 0;
 
-  refreshList() {
-    this.http.get(this.url).subscribe({
-      next: (res) => {
-        this.list = res as StoryModel[];
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-
-  getPagination(pageIndex: number, pageSize: number): Observable<{ stories: StoryModel[]; total: number }> {
+  getPagination(pageIndex: number, pageSize: number): Observable<GetStoryResponse> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
-    return this.http.get<{ stories: StoryModel[]; total: number }>(this.url, { params });
+    return this.http.get<GetStoryResponse>(this.url, { params });
   }
 
-  getSearchPagination(searchTerm: string, pageIndex: number, pageSize: number): Observable<{ stories: StoryModel[]; total: number }> {
+  getSearchPagination(searchTerm: string, pageIndex: number, pageSize: number): Observable<GetStoryResponse> {
     const params = new HttpParams()
       .set('searchTerm', searchTerm.toString())
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
-    return this.http.get<{ stories: StoryModel[]; total: number }>(this.searchUrl, { params });
+    return this.http.get<GetStoryResponse>(this.searchUrl, { params });
   }
 }

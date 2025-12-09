@@ -14,3 +14,8 @@ export interface Pagination<T> {
   pageNumber: number;
   pageSize: number;
 }
+
+export interface GetStoryResponse {
+  stories: StoryModel[];
+  total: number = 0;
+}
