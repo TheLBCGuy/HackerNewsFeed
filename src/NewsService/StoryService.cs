@@ -1,4 +1,5 @@
 ﻿using DataContract;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ServiceContract;
 
@@ -7,21 +8,18 @@ namespace NewsService;
 public class StoryService
     (
         IOptions<NewsOptions> options,
-        ItemDeserializer itemDeserializer
+        ItemDeserializer itemDeserializer,
+        ILogger<StoryService> logger
     ) : IStoryService
 
 {
     private readonly NewsOptions _newsUrlOptions = options.Value;
     private readonly ItemDeserializer _itemDeserializer = itemDeserializer;
+    private readonly ILogger<StoryService> _logger = logger;
 
     public async Task<IEnumerable<int>> GetTopStories()
     {
         return await GetLatestStories();
-    }
-
-    public async Task<IEnumerable<Item>> GetStories(IEnumerable<int> ids)
-    {
-        return await RetrieveStories(ids);
     }
 
     public async Task<Item?> GetStory(int id)
@@ -35,19 +33,8 @@ public class StoryService
         if (null == contents) return [];
         var ids = _itemDeserializer.Deserialize<IEnumerable<int>>(contents);
         if (null == ids) return [];
+        _logger.LogInformation("Fetched top {Count} stories", ids.Count().ToString());
         return ids;
-    }
-
-    private async Task<IEnumerable<Item>> RetrieveStories(IEnumerable<int> ids)
-    {
-        var items = new List<Item>();
-        foreach (var id in ids)
-        {
-            var item = await RetrieveStory(id);
-            if (item == null) continue;
-            items.Add(item);
-        }
-        return items;
     }
 
     private async Task<Item?> RetrieveStory(int id)
@@ -55,6 +42,7 @@ public class StoryService
         var contents = await ReceiveHttpResponse($"{_newsUrlOptions.BaseUrl}/item/{id}.json");
         if (null == contents) return null;
         var item = _itemDeserializer.Deserialize<Item>(contents);
+        _logger.LogInformation("Fetched story {id}", id.ToString());
         return item;
     }
 

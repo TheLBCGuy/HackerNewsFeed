@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Moq;
 using Xunit;
 
 namespace NewsService.Test;
@@ -14,8 +16,9 @@ public class StoryServiceTest
         {
             BaseUrl = "https://hacker-news.firebaseio.com/v0"
         };
+        var  _logger = Mock.Of<ILogger<StoryService>>();
         _options = Options.Create(newsOptions);
-        _service = new StoryService(_options, ItemDeserializer.Instance);
+        _service = new StoryService(_options, ItemDeserializer.Instance, _logger);
     }
 
     [Fact]
