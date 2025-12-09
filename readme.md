@@ -2,7 +2,13 @@
 
 ## Summary
 
-An Angular App with an ASP.NET Core backend that pulls the list of top stories (500) every hour from a StoryService pointing at Hacker News.
+An Angular App with an ASP.NET Core backend that pulls and displays the list of top stories (500) every hour from Hacker News with a HostedService.
+
+Hacker News API information can be found here [Github Hacker News Project](https://github.com/HackerNews/API)
+
+Story titles, author and text (if available, first 100 characters) are displayed in a paginated grid.
+
+Story titles, author and text (if available) are indexed in memory using Lucene for quick search and retrieval.
 
 ### Prerequisites
 
@@ -12,9 +18,10 @@ An Angular App with an ASP.NET Core backend that pulls the list of top stories (
 ## To Run This Project
 
 1. Clone Locally
-2. Browse to src/ui folder
-3. Right-click and select 'HackerNewsFeed.Server' as Startup Project
-4. Start Debugging (F5)
+2. Open in Visual Studio (or other preferred IDE)
+3. Browse to src/ui folder
+4. Right-click and select 'HackerNewsFeed.Server' as Startup Project
+5. Start Debugging (F5)
 
 ### Unit Testing
 
@@ -40,7 +47,7 @@ ng test
 
 # Other Information
 
-## To Upgrade Global Angular to Run This Project
+## To Upgrade your Global Angular to Run This Project
 
 ```
 npm uninstall -g @angular/cli
@@ -50,7 +57,7 @@ npm install -g @angular/cli@latest@19.2.19
 
 ## Help with GitHub Actions
 
-# Install Act to Help with Testing Actions Locally
+# Install Act to Help with Testing Github Actions Locally
 
 ## See this site for more information:
 
@@ -59,3 +66,5 @@ https://nektosact.com/introduction.html
 ## See this site for Winget installation instructions:
 
 https://nektosact.com/installation/winget.html
+
+**NOTE** Act's local Docker Container has an issue when running the 'ng test' when a **ChromeHeadless** browser is required, however the angular workflow in this project works fine within Github itself
