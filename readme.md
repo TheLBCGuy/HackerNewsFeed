@@ -45,6 +45,12 @@ ng test
 2. Right-click on the HackerNewsFeed.Server.Tests project
 3. Select 'Run Tests'
 
+## Swagger Page
+
+Swagger page is available here:
+
+```http://localhost:5014/swagger/index.html```
+
 # Other Information
 
 ## To Upgrade your Global Angular to Run This Project

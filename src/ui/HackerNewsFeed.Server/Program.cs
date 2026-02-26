@@ -8,7 +8,11 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
         builder.Services.AddOpenApi();
+
         builder.Services.AddEasyCaching(options =>
         {
             options.UseInMemory("inmemory");
@@ -29,6 +33,9 @@ public class Program
             {
                 options.WithTitle("Demo Api");
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
         app.UseAuthorization();
